@@ -27,11 +27,11 @@
     `sudo yum -y install https://centos6.iuscommunity.org/ius-release.rpm`
     * Install Python 3.6
     `sudo yum -y install python36u`
-    * Check install by running this command: `python3.6 -V`
+    * Check install by running this command: `python3.6 -V` with output
     `Python 3.6.1`
-    * Install Python development that require by install _`happybase`_
+    * Install Python development that require by install _`happybase`_:
     `sudo yum install python36u-devel.x86_64`
-    * Install PIP
+    * Install PIP:
     `sudo yum -y install python36u-pip`
 4. Create _virtualenv_ with name **"twitter"** in **/home/cloudera** directory
    ```
@@ -105,9 +105,10 @@
    `(twitter) [cloudera@quickstart ~]$`
 
 1. **Spark Submit receive streaming from Kafka and put data to Hbase**: open new Terminal, active "twitter" virtualenv  and run
-   
-   `spark-submit --master local[*] --jars /home/cloudera/twitter_stream/libs/spark-streaming-kafka-0-8-assembly_2.11-2.3.0.jar /home/cloudera/twitter_stream/spark_kafka_process.py`
 
+```
+spark-submit --master local[*] --jars /home/cloudera/twitter_stream/libs/spark-streaming-kafka-0-8-assembly_2.11-2.3.0.jar /home/cloudera/twitter_stream/spark_kafka_process.py
+```
     * Debug: after start twitter streaming from step 2 bellow, you can search in Terminal with key word _DEBUG:_
         * `************************************** DEBUG: put`: Put data to Hbase table but not commit
         * `************************************** DEBUG: commit`: Commit batch rows to Hbase
@@ -116,24 +117,25 @@
 2. **Twitter Streaming and send to Kafka**: open new Terminal, active "twitter" virtualenv and run
 
 `python /home/cloudera/twitter_stream/twitter_stream_kafka.py`
+
 3. **Restful API**:
     * Open new Terminal, active "twitter" virtualenv and run this command:
 
     `python /home/cloudera/twitter_stream/rest_api.py`
 
     * Test by open this url: [http://quickstart.cloudera:5000/](http://quickstart.cloudera:5000/)
-5. Incase you want to test small data:
+4. Incase you want to test small data:
     * Open new Terminal and start Kafka producer by this command:
 
     `kafka-console-producer --broker-list localhost:9092 --topic twitter-stream`
 
     * Copy data from file **twitter_test.json** and paste to Terminal
-7. Open new Terminal and start **JupyterLab**:
+5. Open new Terminal and start **JupyterLab**:
 
     `jupyter lab --no-browser --port=8889 --ip=quickstart.cloudera`
 
     * you can access JupyterLab from url show in Terminal like: http://quickstart.cloudera:8889/?token=xxxx
-8. In JupyterLab open file `result_virtualization.ipynb` and _Run All Cells_ from menu _Run_ to show virtualazation
+6. In JupyterLab open file `result_virtualization.ipynb` and _Run All Cells_ from menu _Run_ to show virtualazation
 
 ## Troubleshot
 
