@@ -68,11 +68,20 @@
 
 ## Preparation
 
-1. Open Terminal and start Kafka server:
+1. Getting Twitter API keys
+
+    * Create a twitter account if you do not already have one. 
+    * Go to https://apps.twitter.com/ and log in with your twitter credentials. 
+    * Click "Create New App" 
+    * Fill out the form, agree to the terms, and click "Create your Twitter application" 
+    * In the next page, click on "API keys" tab, and copy your "API key" and "API secret". 
+    * Scroll down and click "Create my access token", and copy your "Access token" and "Access token secret".
+
+2. Open Terminal and start Kafka server:
    `sudo service kafka-server start`
-2. Create Kafka topic:
+3. Create Kafka topic:
    `kafka-topics --create --zookeeper localhost:2181 --topic twitter-stream --partitions 1 --replication-factor 1`
-3. Start `hbase shell` and create new table with structure:
+4. Start `hbase shell` and create new table with structure:
     * Key: id_str
     * Column family **user**: author, location
     * Column family **general**: lang, created, text, hashtags
@@ -81,7 +90,7 @@
     by running this command:
       `create 'tweets', 'user', 'general', 'place'`
 
-4. Start `hive` and create new table:
+5. Start `hive` and create new table:
    ```sql
    CREATE EXTERNAL TABLE tweets(id string, user_author string, user_location string,
        general_lang string, general_created string, general_created_ts string, general_text string, general_hashtags string,
@@ -90,14 +99,16 @@
    WITH SERDEPROPERTIES ('hbase.columns.mapping' = ':key,user:author,user:location,general:lang,general:created,general:created_ts,general:text,general:hashtags,place:country,place:country_code,place:name,place:full_name,place:place_type')
    TBLPROPERTIES ('hbase.table.name' = 'tweets');
    ```
-5. Create Hive view for casting string timestamp to timestamp:
+   
+6. Create Hive view for casting string timestamp to timestamp:
    ```sql
    CREATE VIEW vw_tweets AS
    SELECT id, user_author, user_location, general_lang, general_created,
        from_unixtime(CAST(general_created_ts AS INT)) AS general_created_ts, general_text, general_hashtags,
        place_country, place_country_code, place_name, place_full_name, place_place_type FROM tweets;
    ```
-6. Copy file **twitter_stream.zip** to Clouder Home directory and extract, make sure your extracted directory path is:  `/home/cloudera/twitter_stream/`
+7. Copy file **twitter_stream.zip** to Clouder Home directory and extract, make sure your extracted directory path is:  `/home/cloudera/twitter_stream/`
+8. Open file **twitter_stream_kafka.py** and update api keys
 
 ## Test and Debug
 
