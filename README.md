@@ -12,11 +12,11 @@
 1. Make sure that yum is up to date by running this command: `sudo yum -y update`
 
 2. Install Kafka follow by this [link from Cloudera](https://www.cloudera.com/documentation/kafka/latest/topics/kafka_installing.html#concept_ctb_k1c_d5)
-```
-sudo yum -y clean all
-sudo yum -y install kafka
-sudo yum -y install kafka-server
-```
+   ```
+   sudo yum -y clean all
+   sudo yum -y install kafka
+   sudo yum -y install kafka-server
+   ```
 3. Install Python 3.6
 
     * Install yum-utils
@@ -34,11 +34,11 @@ sudo yum -y install kafka-server
     * Install PIP
     `sudo yum -y install python36u-pip`
 4. Create _virtualenv_ with name **"twitter"** in **/home/cloudera** directory
-```
-mkdir environments
-cd environments
-python3.6 -m venv twitter
-```
+   ```
+   mkdir environments
+   cd environments
+   python3.6 -m venv twitter
+   ```
 
 5. Install PySpark and other libraries to virtualenv from HOME folder
 
@@ -61,10 +61,10 @@ python3.6 -m venv twitter
         python -mpip install matplotlib
     ```
 6. Install Microsoft's Core Fonts for JupyterLab Virtualization follow by this [link](http://mscorefonts2.sourceforge.net/):
-```
-sudo yum install curl cabextract xorg-x11-font-utils fontconfig
-sudo rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
-```
+   ```
+   sudo yum install curl cabextract xorg-x11-font-utils fontconfig
+   sudo rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
+   ```
 
 ## Preparation
 
@@ -82,27 +82,27 @@ sudo rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore
     ```create 'tweets', 'user', 'general', 'place'```
 
 4. Start `hive` and create new table:
-```sql
-CREATE EXTERNAL TABLE tweets(id string, user_author string, user_location string,
-    general_lang string, general_created string, general_created_ts string, general_text string, general_hashtags string,
-    place_country string, place_country_code string, place_name string, place_full_name string, place_place_type string)
-STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'
-WITH SERDEPROPERTIES ('hbase.columns.mapping' = ':key,user:author,user:location,general:lang,general:created,general:created_ts,general:text,general:hashtags,place:country,place:country_code,place:name,place:full_name,place:place_type')
-TBLPROPERTIES ('hbase.table.name' = 'tweets');
-```
+   ```sql
+   CREATE EXTERNAL TABLE tweets(id string, user_author string, user_location string,
+       general_lang string, general_created string, general_created_ts string, general_text string, general_hashtags string,
+       place_country string, place_country_code string, place_name string, place_full_name string, place_place_type string)
+   STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'
+   WITH SERDEPROPERTIES ('hbase.columns.mapping' = ':key,user:author,user:location,general:lang,general:created,general:created_ts,general:text,general:hashtags,place:country,place:country_code,place:name,place:full_name,place:place_type')
+   TBLPROPERTIES ('hbase.table.name' = 'tweets');
+   ```
 5. Create Hive view for casting string timestamp to timestamp:
-```sql
-CREATE VIEW vw_tweets AS
-SELECT id, user_author, user_location, general_lang, general_created,
-    from_unixtime(CAST(general_created_ts AS INT)) AS general_created_ts, general_text, general_hashtags,
-    place_country, place_country_code, place_name, place_full_name, place_place_type FROM tweets;
-```
-6. Copy file **twitter_stream.zip** to Clouder Home directory and extract, make sure your extracted directory path is: `/home/cloudera/twitter_stream/`
+   ```sql
+   CREATE VIEW vw_tweets AS
+   SELECT id, user_author, user_location, general_lang, general_created,
+       from_unixtime(CAST(general_created_ts AS INT)) AS general_created_ts, general_text, general_hashtags,
+       place_country, place_country_code, place_name, place_full_name, place_place_type FROM tweets;
+   ```
+6. Copy file **twitter_stream.zip** to Clouder Home directory and extract, make sure your extracted directory path is:  `/home/cloudera/twitter_stream/`
 
 ## Test and Debug
 
 #### NOTE: all command bellow run from virtualenv "twitter", you must see your terminal start with:
-`(twitter) [cloudera@quickstart ~]$`
+   `(twitter) [cloudera@quickstart ~]$`
 
 1. **Spark Submit receive streaming from Kafka and put data to Hbase**: open new Terminal, active "twitter" virtualenv  and run
 `spark-submit --master local[*] --jars /home/cloudera/twitter_stream/libs/spark-streaming-kafka-0-8-assembly_2.11-2.3.0.jar /home/cloudera/twitter_stream/spark_kafka_process.py`
@@ -136,10 +136,10 @@ SELECT id, user_author, user_location, general_lang, general_created,
 ## Troubleshot
 
 1. Sometime Hbase service dead and you must be restart by commands:
-```
-sudo service hbase-master restart;
-sudo service hbase-regionserver restart;
-```
+   ```
+   sudo service hbase-master restart;
+   sudo service hbase-regionserver restart;
+   ```
 2. Sometime when you run file `twitter_stream_kafka.py` some exception when raise, please restart by run that command
 3. Run `twitter_stream_kafka.py` and got 401 code: correct you date time
 4. Exception when run Hive: `java.lang.RuntimeException: java.lang.RuntimeException: The root scratch dir: /tmp/hive on HDFS should be writable. Current permissions are: rwx------` run this command to give permission: `sudo chmod -R 777 /tmp/hive`
