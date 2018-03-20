@@ -12,11 +12,11 @@
 1. Make sure that yum is up to date by running this command: `sudo yum -y update`
 
 2. Install Kafka follow by this [link from Cloudera](https://www.cloudera.com/documentation/kafka/latest/topics/kafka_installing.html#concept_ctb_k1c_d5)
-    >```
-    sudo yum -y clean all
-    sudo yum -y install kafka
-    sudo yum -y install kafka-server
-    ```
+>```
+sudo yum -y clean all
+sudo yum -y install kafka
+sudo yum -y install kafka-server
+```
 3. Install Python 3.6
 
     * Install yum-utils
