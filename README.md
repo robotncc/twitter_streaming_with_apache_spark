@@ -1,5 +1,9 @@
 # Twitter Streaming Data Mining with <img src="https://spark.apache.org/images/spark-logo-trademark.png" width="150" />
 
+## Overview
+
+Twitter Streaming with Apache Spark, data mining by simple Flask restful api and JupyterLab Virtualization
+
 ## Requirements
 
 1. Cloudera 5.14 (recommend 8GB RAM and  4 cores)
