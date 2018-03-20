@@ -1,8 +1,8 @@
-# Twitter Streaming Data Mining with<img src="https://spark.apache.org/images/spark-logo-trademark.png" width="150" />
+# Twitter Streaming Data Mining with<img src="https://spark.apache.org/images/spark-logo-trademark.png" width="150" /
 
 ## Requirements
 
-1. Cloudera 5.14 (recommend >8GB RAM and > 4 cores)
+1. Cloudera 5.14 (recommend 8GB RAM and  4 cores)
 2. JDK 1.8
 2. Python 3.6
 3. Spark 2.3.0 (virtualenv)
@@ -12,7 +12,7 @@
 1. Make sure that yum is up to date by running this command: `sudo yum -y update`
 
 2. Install Kafka follow by this [link from Cloudera](https://www.cloudera.com/documentation/kafka/latest/topics/kafka_installing.html#concept_ctb_k1c_d5)
->```
+```
 sudo yum -y clean all
 sudo yum -y install kafka
 sudo yum -y install kafka-server
@@ -20,21 +20,21 @@ sudo yum -y install kafka-server
 3. Install Python 3.6
 
     * Install yum-utils
-    >`sudo yum -y install yum-utils`
+    `sudo yum -y install yum-utils`
     * CentOS Development Tools
-    >`sudo yum -y groupinstall development`
+    `sudo yum -y groupinstall development`
     * Install IUS:
-    >`sudo yum -y install https://centos6.iuscommunity.org/ius-release.rpm`
+    `sudo yum -y install https://centos6.iuscommunity.org/ius-release.rpm`
     * Install Python 3.6
-        >`sudo yum -y install python36u`
+        `sudo yum -y install python36u`
     * Check install by running this command: `python3.6 -V`
-    >`Python 3.6.1`
+    `Python 3.6.1`
     * Install Python development that require by install _`happybase`_
-    >`sudo yum install python36u-devel.x86_64`
+    `sudo yum install python36u-devel.x86_64`
     * Install PIP
-    >`sudo yum -y install python36u-pip`
+    `sudo yum -y install python36u-pip`
 4. Create _virtualenv_ with name **"twitter"** in **/home/cloudera** directory
->```
+```
 mkdir environments
 cd environments
 python3.6 -m venv twitter
@@ -43,15 +43,15 @@ python3.6 -m venv twitter
 5. Install PySpark and other libraries to virtualenv from HOME folder
 
     * Move to virtualenv **"twitter"**:
-    >`source /home/cloudera/environments/twitter/bin/activate`
+    `source /home/cloudera/environments/twitter/bin/activate`
     * Upgrade setup tools:
-    >`pip install --upgrade setuptools`
+    `pip install --upgrade setuptools`
     * Install PySpark:
-    >`pip install pyspark`
+    `pip install pyspark`
     * Install Jupyterlab:
-    >`pip install jupyterlab`
+    `pip install jupyterlab`
     * Install other Python lib:
-    >```
+    ```
         pip install kafka
         pip install tweepy
         pip install happybase
@@ -61,7 +61,7 @@ python3.6 -m venv twitter
         python -mpip install matplotlib
     ```
 6. Install Microsoft's Core Fonts for JupyterLab Virtualization follow by this [link](http://mscorefonts2.sourceforge.net/):
->```
+```
 sudo yum install curl cabextract xorg-x11-font-utils fontconfig
 sudo rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
 ```
@@ -69,9 +69,9 @@ sudo rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore
 ## Preparation
 
 1. Open Terminal and start Kafka server:
->`sudo service kafka-server start`
+`sudo service kafka-server start`
 2. Create Kafka topic:
->`kafka-topics --create --zookeeper localhost:2181 --topic twitter-stream --partitions 1 --replication-factor 1`
+`kafka-topics --create --zookeeper localhost:2181 --topic twitter-stream --partitions 1 --replication-factor 1`
 3. Start `hbase shell` and create new table with structure:
     * Key: id
     * Column family **user**: author, location
@@ -79,10 +79,10 @@ sudo rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore
     * Column family **place**: country, country_code, name, full_name, place_type
 
     by running this command:
-    >```create 'tweets', 'user', 'general', 'place'```
+    ```create 'tweets', 'user', 'general', 'place'```
 
 4. Start `hive` and create new table:
->```sql
+```sql
 CREATE EXTERNAL TABLE tweets(id string, user_author string, user_location string,
     general_lang string, general_created string, general_created_ts string, general_text string, general_hashtags string,
     place_country string, place_country_code string, place_name string, place_full_name string, place_place_type string)
@@ -91,13 +91,13 @@ WITH SERDEPROPERTIES ('hbase.columns.mapping' = ':key,user:author,user:location,
 TBLPROPERTIES ('hbase.table.name' = 'tweets');
 ```
 5. Create Hive view for casting string timestamp to timestamp:
->```sql
+```sql
 CREATE VIEW vw_tweets AS
 SELECT id, user_author, user_location, general_lang, general_created,
     from_unixtime(CAST(general_created_ts AS INT)) AS general_created_ts, general_text, general_hashtags,
     place_country, place_country_code, place_name, place_full_name, place_place_type FROM tweets;
 ```
-6. Copy file **twitter_stream.zip** to Clouder Home directory and extract, make sure your extracted directory path is: >`/home/cloudera/twitter_stream/`
+6. Copy file **twitter_stream.zip** to Clouder Home directory and extract, make sure your extracted directory path is: `/home/cloudera/twitter_stream/`
 
 ## Test and Debug
 
@@ -105,7 +105,7 @@ SELECT id, user_author, user_location, general_lang, general_created,
 `(twitter) [cloudera@quickstart ~]$`
 
 1. **Spark Submit receive streaming from Kafka and put data to Hbase**: open new Terminal, active "twitter" virtualenv  and run
->`spark-submit --master local[*] --jars /home/cloudera/twitter_stream/libs/spark-streaming-kafka-0-8-assembly_2.11-2.3.0.jar /home/cloudera/twitter_stream/spark_kafka_process.py`
+`spark-submit --master local[*] --jars /home/cloudera/twitter_stream/libs/spark-streaming-kafka-0-8-assembly_2.11-2.3.0.jar /home/cloudera/twitter_stream/spark_kafka_process.py`
 
     * Debug: after start twitter streaming from step 2 bellow, you can search in Terminal with key word _DEBUG:_
         * `************************************** DEBUG: put`: Put data to Hbase table but not commit
@@ -113,22 +113,22 @@ SELECT id, user_author, user_location, general_lang, general_created,
         * `************************************** DEBUG: exception eachRDD: `: error when process each RDD
     * TrackingSpark jobs by open this url: [http://quickstart.cloudera:4040/jobs/](http://quickstart.cloudera:4040/jobs/) (url maybe difference)
 2. **Twitter Streaming and send to Kafka**: open new Terminal, active "twitter" virtualenv and run
->`python /home/cloudera/twitter_stream/twitter_stream_kafka.py`
+`python /home/cloudera/twitter_stream/twitter_stream_kafka.py`
 3. **Restful API**:
     * Open new Terminal, active "twitter" virtualenv and run this command:
 
-    >`python /home/cloudera/twitter_stream/rest_api.py`
+    `python /home/cloudera/twitter_stream/rest_api.py`
 
     * Test by open this url: [http://quickstart.cloudera:5000/](http://quickstart.cloudera:5000/)
 5. Incase you want to test small data:
     * Open new Terminal and start Kafka producer by this command:
 
-    >`kafka-console-producer --broker-list localhost:9092 --topic twitter-stream`
+    `kafka-console-producer --broker-list localhost:9092 --topic twitter-stream`
 
     * Copy data from file **twitter_test.json** and paste to Terminal
 7. Open new Terminal and start **JupyterLab**:
 
-    >`jupyter lab --no-browser --port=8889 --ip=quickstart.cloudera`
+    `jupyter lab --no-browser --port=8889 --ip=quickstart.cloudera`
 
     * you can access JupyterLab from url show in Terminal like: http://quickstart.cloudera:8889/?token=xxxx
 8. In JupyterLab open file `result_virtualization.ipynb` and _Run All Cells_ from menu _Run_ to show virtualazation
@@ -136,7 +136,7 @@ SELECT id, user_author, user_location, general_lang, general_created,
 ## Troubleshot
 
 1. Sometime Hbase service dead and you must be restart by commands:
->```
+```
 sudo service hbase-master restart;
 sudo service hbase-regionserver restart;
 ```
