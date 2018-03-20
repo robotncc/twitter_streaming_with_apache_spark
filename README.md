@@ -1,4 +1,4 @@
-# Twitter Streaming Data Mining with<img src="https://spark.apache.org/images/spark-logo-trademark.png" width="150" /
+# Twitter Streaming Data Mining with <img src="https://spark.apache.org/images/spark-logo-trademark.png" width="150" />
 
 ## Requirements
 
@@ -26,7 +26,7 @@
     * Install IUS:
     `sudo yum -y install https://centos6.iuscommunity.org/ius-release.rpm`
     * Install Python 3.6
-        `sudo yum -y install python36u`
+    `sudo yum -y install python36u`
     * Check install by running this command: `python3.6 -V`
     `Python 3.6.1`
     * Install Python development that require by install _`happybase`_
@@ -69,9 +69,9 @@
 ## Preparation
 
 1. Open Terminal and start Kafka server:
-`sudo service kafka-server start`
+   `sudo service kafka-server start`
 2. Create Kafka topic:
-`kafka-topics --create --zookeeper localhost:2181 --topic twitter-stream --partitions 1 --replication-factor 1`
+   `kafka-topics --create --zookeeper localhost:2181 --topic twitter-stream --partitions 1 --replication-factor 1`
 3. Start `hbase shell` and create new table with structure:
     * Key: id
     * Column family **user**: author, location
@@ -105,7 +105,7 @@
    `(twitter) [cloudera@quickstart ~]$`
 
 1. **Spark Submit receive streaming from Kafka and put data to Hbase**: open new Terminal, active "twitter" virtualenv  and run
-`spark-submit --master local[*] --jars /home/cloudera/twitter_stream/libs/spark-streaming-kafka-0-8-assembly_2.11-2.3.0.jar /home/cloudera/twitter_stream/spark_kafka_process.py`
+   `spark-submit --master local[*] --jars /home/cloudera/twitter_stream/libs/spark-streaming-kafka-0-8-assembly_2.11-2.3.0.jar /home/cloudera/twitter_stream/spark_kafka_process.py`
 
     * Debug: after start twitter streaming from step 2 bellow, you can search in Terminal with key word _DEBUG:_
         * `************************************** DEBUG: put`: Put data to Hbase table but not commit
