@@ -104,11 +104,7 @@
 #### NOTE: all command bellow run from virtualenv "twitter", you must see your terminal start with:
    `(twitter) [cloudera@quickstart ~]$`
 
-1. **Spark Submit receive streaming from Kafka and put data to Hbase**: open new Terminal, active "twitter" virtualenv  and run
-
-```
-spark-submit --master local[*] --jars /home/cloudera/twitter_stream/libs/spark-streaming-kafka-0-8-assembly_2.11-2.3.0.jar /home/cloudera/twitter_stream/spark_kafka_process.py
-```
+1. **Spark Submit receive streaming from Kafka and put data to Hbase**: open new Terminal, active "twitter" virtualenv and run this command: `spark-submit --master local[*] --jars /home/cloudera/twitter_stream/libs/spark-streaming-kafka-0-8-assembly_2.11-2.3.0.jar /home/cloudera/twitter_stream/spark_kafka_process.py`
     * Debug: after start twitter streaming from step 2 bellow, you can search in Terminal with key word _DEBUG:_
         * `************************************** DEBUG: put`: Put data to Hbase table but not commit
         * `************************************** DEBUG: commit`: Commit batch rows to Hbase
