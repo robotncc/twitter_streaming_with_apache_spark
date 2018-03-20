@@ -105,6 +105,7 @@
    `(twitter) [cloudera@quickstart ~]$`
 
 1. **Spark Submit receive streaming from Kafka and put data to Hbase**: open new Terminal, active "twitter" virtualenv  and run
+   
    `spark-submit --master local[*] --jars /home/cloudera/twitter_stream/libs/spark-streaming-kafka-0-8-assembly_2.11-2.3.0.jar /home/cloudera/twitter_stream/spark_kafka_process.py`
 
     * Debug: after start twitter streaming from step 2 bellow, you can search in Terminal with key word _DEBUG:_
@@ -113,6 +114,7 @@
         * `************************************** DEBUG: exception eachRDD: `: error when process each RDD
     * TrackingSpark jobs by open this url: [http://quickstart.cloudera:4040/jobs/](http://quickstart.cloudera:4040/jobs/) (url maybe difference)
 2. **Twitter Streaming and send to Kafka**: open new Terminal, active "twitter" virtualenv and run
+
 `python /home/cloudera/twitter_stream/twitter_stream_kafka.py`
 3. **Restful API**:
     * Open new Terminal, active "twitter" virtualenv and run this command:
