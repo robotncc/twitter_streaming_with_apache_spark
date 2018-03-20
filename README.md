@@ -73,7 +73,7 @@
 2. Create Kafka topic:
    `kafka-topics --create --zookeeper localhost:2181 --topic twitter-stream --partitions 1 --replication-factor 1`
 3. Start `hbase shell` and create new table with structure:
-    * Key: id
+    * Key: id_str
     * Column family **user**: author, location
     * Column family **general**: lang, created, text, hashtags
     * Column family **place**: country, country_code, name, full_name, place_type
