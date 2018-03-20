@@ -4,6 +4,11 @@
 
 Twitter Streaming with Apache Spark, data mining by simple Flask restful api and JupyterLab Virtualization
 
+Special thank to Professor: **Mrudula Mukadam**
+
+**Big Data Technology - CS 523**
+**M.U.M - Mar 2018**
+
 ## Requirements
 
 1. Cloudera 5.14 (recommend 8GB RAM and  4 cores)
